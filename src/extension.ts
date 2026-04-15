@@ -2,6 +2,7 @@ import * as vscode from 'vscode';
 import { JustfileDiscovery } from './justfileDiscovery.js';
 import { RecipeProvider, TreeNode } from './recipeProvider.js';
 import { runRecipe } from './justRunner.js';
+import { promptForArgs } from './argPrompt.js';
 
 export function activate(ctx: vscode.ExtensionContext): void {
   const discovery = new JustfileDiscovery(ctx);
@@ -74,11 +75,20 @@ export function activate(ctx: vscode.ExtensionContext): void {
 
     vscode.commands.registerCommand('justSidebar.runRecipeWithArgs', async (node: TreeNode) => {
       if (!node || node.kind !== 'recipe') return;
+      const extraArgs = await promptForArgs(node.recipe);
+      if (extraArgs === undefined) return; // user cancelled
+      await runRecipe(node.recipe, node.loc, extraArgs);
+    }),
+
+    vscode.commands.registerCommand('justSidebar.runRecipeWithRawArgs', async (node: TreeNode) => {
+      if (!node || node.kind !== 'recipe') return;
       const input = await vscode.window.showInputBox({
-        prompt: `Arguments for \`${node.recipe.name}\``,
-        placeHolder: node.recipe.parameters
-          .map((p) => (p.variadic ? `+${p.name}` : p.name))
-          .join(' '),
+        title: `Run ${node.recipe.name} with raw args`,
+        prompt: 'Raw argument fragment passed through to the shell after the recipe name',
+        placeHolder: node.recipe.parameters.length > 0
+          ? node.recipe.parameters.map((p) => (p.variadic ? `+${p.name}` : p.name)).join(' ')
+          : 'e.g. --some-flag value',
+        ignoreFocusOut: true,
       });
       if (input === undefined) return; // user cancelled
       await runRecipe(node.recipe, node.loc, input);

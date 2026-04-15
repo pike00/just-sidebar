@@ -77,6 +77,11 @@
         "category": "Just"
       },
       {
+        "command": "justSidebar.runRecipeWithRawArgs",
+        "title": "Run with Raw Args…",
+        "category": "Just"
+      },
+      {
         "command": "justSidebar.selectJustfile",
         "title": "Select Justfile…",
         "category": "Just"
@@ -121,6 +126,11 @@
           "command": "justSidebar.runRecipeWithArgs",
           "when": "view == justRecipes && viewItem == recipe-with-args",
           "group": "inline@2"
+        },
+        {
+          "command": "justSidebar.runRecipeWithRawArgs",
+          "when": "view == justRecipes && viewItem =~ /^recipe(-with-args)?$/",
+          "group": "1_run@1"
         }
       ]
     },

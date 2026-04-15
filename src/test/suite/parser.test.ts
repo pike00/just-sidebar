@@ -11,6 +11,7 @@ import * as path from 'path';
 // Use a relative path that works after compilation.
 import { parseJustList, shellQuote } from '../../justParser.js';
 import { buildRunCommand } from '../../justRunner.js';
+import { splitArgs } from '../../argPrompt.js';
 import { Recipe, JustfileLocation } from '../../types.js';
 
 // Minimal mock URI / Location for buildRunCommand tests
@@ -168,5 +169,47 @@ suite('parseJustList edge cases', () => {
     const result = parseJustList(output);
     assert.strictEqual(result[0].parameters[0].name, 'verbose');
     assert.strictEqual(result[0].parameters[0].default, 'false');
+  });
+});
+
+suite('splitArgs', () => {
+  test('empty string → []', () => {
+    assert.deepStrictEqual(splitArgs(''), []);
+  });
+
+  test('whitespace only → []', () => {
+    assert.deepStrictEqual(splitArgs('   \t '), []);
+  });
+
+  test('simple space-separated', () => {
+    assert.deepStrictEqual(splitArgs('foo bar baz'), ['foo', 'bar', 'baz']);
+  });
+
+  test('collapses runs of whitespace', () => {
+    assert.deepStrictEqual(splitArgs('foo    bar\tbaz'), ['foo', 'bar', 'baz']);
+  });
+
+  test('double-quoted groups span spaces', () => {
+    assert.deepStrictEqual(splitArgs('foo "bar baz" qux'), ['foo', 'bar baz', 'qux']);
+  });
+
+  test('single-quoted groups span spaces and preserve backslash', () => {
+    assert.deepStrictEqual(splitArgs("a 'b\\c d' e"), ['a', 'b\\c d', 'e']);
+  });
+
+  test('backslash escapes a space outside quotes', () => {
+    assert.deepStrictEqual(splitArgs('foo\\ bar baz'), ['foo bar', 'baz']);
+  });
+
+  test('backslash escapes a quote inside double quotes', () => {
+    assert.deepStrictEqual(splitArgs('"she said \\"hi\\""'), ['she said "hi"']);
+  });
+
+  test('empty double-quoted string is kept', () => {
+    assert.deepStrictEqual(splitArgs('foo "" bar'), ['foo', '', 'bar']);
+  });
+
+  test('adjacent quoted and unquoted chunks concatenate', () => {
+    assert.deepStrictEqual(splitArgs('foo"bar baz"qux'), ['foobar bazqux']);
   });
 });
