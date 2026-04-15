@@ -2,7 +2,7 @@
 
 A VS Code extension that surfaces [`just`](https://github.com/casey/just) recipes in a persistent sidebar tree view. Click a recipe to run it in an integrated terminal.
 
-![Just Sidebar showing grouped recipes in a multi-justfile workspace](images/image.png)
+![Just Sidebar showing grouped recipes in a multi-justfile workspace](images/screenshot.png)
 
 ## Features
 
