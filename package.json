@@ -4,9 +4,15 @@
   "publisher": "pike00",
   "version": "0.1.0",
   "description": "Surfaces `just` recipes in a sidebar tree view with click-to-run support.",
-  "engines": { "vscode": "^1.95.0" },
-  "categories": ["Other"],
-  "activationEvents": ["workspaceContains:**/[Jj]ustfile"],
+  "engines": {
+    "vscode": "^1.95.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "activationEvents": [
+    "workspaceContains:**/[Jj]ustfile"
+  ],
   "main": "./out/extension.js",
   "repository": {
     "type": "git",
@@ -52,22 +58,70 @@
       }
     ],
     "commands": [
-      { "command": "justSidebar.refresh",          "title": "Refresh",         "icon": "$(refresh)",     "category": "Just" },
-      { "command": "justSidebar.runRecipe",        "title": "Run Recipe",      "icon": "$(play)",        "category": "Just" },
-      { "command": "justSidebar.runRecipeWithArgs","title": "Run with Args…",  "icon": "$(edit)",        "category": "Just" },
-      { "command": "justSidebar.selectJustfile",   "title": "Select Justfile…","category": "Just" },
-      { "command": "justSidebar.openJustfile",     "title": "Open Justfile",   "icon": "$(go-to-file)", "category": "Just" },
-      { "command": "justSidebar.createJustfile",   "title": "Create Justfile", "category": "Just" }
+      {
+        "command": "justSidebar.refresh",
+        "title": "Refresh",
+        "icon": "$(refresh)",
+        "category": "Just"
+      },
+      {
+        "command": "justSidebar.runRecipe",
+        "title": "Run Recipe",
+        "icon": "$(play)",
+        "category": "Just"
+      },
+      {
+        "command": "justSidebar.runRecipeWithArgs",
+        "title": "Run with Args…",
+        "icon": "$(edit)",
+        "category": "Just"
+      },
+      {
+        "command": "justSidebar.selectJustfile",
+        "title": "Select Justfile…",
+        "category": "Just"
+      },
+      {
+        "command": "justSidebar.openJustfile",
+        "title": "Open Justfile",
+        "icon": "$(go-to-file)",
+        "category": "Just"
+      },
+      {
+        "command": "justSidebar.createJustfile",
+        "title": "Create Justfile",
+        "category": "Just"
+      }
     ],
     "menus": {
       "view/title": [
-        { "command": "justSidebar.refresh",       "when": "view == justRecipes", "group": "navigation@1" },
-        { "command": "justSidebar.openJustfile",  "when": "view == justRecipes", "group": "navigation@2" },
-        { "command": "justSidebar.selectJustfile","when": "view == justRecipes && justSidebar.multipleJustfiles", "group": "navigation@3" }
+        {
+          "command": "justSidebar.refresh",
+          "when": "view == justRecipes",
+          "group": "navigation@1"
+        },
+        {
+          "command": "justSidebar.openJustfile",
+          "when": "view == justRecipes",
+          "group": "navigation@2"
+        },
+        {
+          "command": "justSidebar.selectJustfile",
+          "when": "view == justRecipes && justSidebar.multipleJustfiles",
+          "group": "navigation@3"
+        }
       ],
       "view/item/context": [
-        { "command": "justSidebar.runRecipe",        "when": "view == justRecipes && viewItem == recipe",           "group": "inline@1" },
-        { "command": "justSidebar.runRecipeWithArgs","when": "view == justRecipes && viewItem == recipe-with-args", "group": "inline@2" }
+        {
+          "command": "justSidebar.runRecipe",
+          "when": "view == justRecipes && viewItem == recipe",
+          "group": "inline@1"
+        },
+        {
+          "command": "justSidebar.runRecipeWithArgs",
+          "when": "view == justRecipes && viewItem == recipe-with-args",
+          "group": "inline@2"
+        }
       ]
     },
     "configuration": {
@@ -80,7 +134,11 @@
         },
         "justSidebar.useNix": {
           "type": "string",
-          "enum": ["auto", "always", "never"],
+          "enum": [
+            "auto",
+            "always",
+            "never"
+          ],
           "default": "auto",
           "description": "Run inside `nix develop` if a flake.nix is present alongside the justfile."
         },
@@ -105,6 +163,10 @@
     "test:unit": "mocha --require ts-node/register 'src/test/suite/parser.test.ts'",
     "package": "vsce package --no-yarn"
   },
+  "overrides": {
+    "serialize-javascript": "^7.0.5",
+    "diff": "^9.0.0"
+  },
   "devDependencies": {
     "@types/mocha": "^10.0.10",
     "@types/node": "^22.0.0",
@@ -113,7 +175,7 @@
     "@vscode/test-electron": "^2.4.1",
     "@vscode/vsce": "^3.0.0",
     "eslint": "^9.0.0",
-    "mocha": "^10.0.0",
+    "mocha": "^11.7.5",
     "ts-node": "^10.9.2",
     "typescript": "^5.7.0"
   }
