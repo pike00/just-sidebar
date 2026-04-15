@@ -1,0 +1,11 @@
+# Start the web dev server
+dev:
+    echo "Starting dev server..."
+
+# Build for production
+build:
+    echo "Building for production..."
+
+# Run end-to-end tests
+e2e browser="chromium":
+    echo "Running e2e tests in {{browser}}..."

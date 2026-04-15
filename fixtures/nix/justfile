@@ -1,0 +1,7 @@
+# Build inside nix dev shell
+build:
+    echo "Building in nix environment..."
+
+# Run tests inside nix dev shell
+test:
+    echo "Testing in nix environment..."

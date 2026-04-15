@@ -1,0 +1,11 @@
+# Start the API server
+serve port="8080":
+    echo "Serving API on port {{port}}..."
+
+# Run API tests
+test:
+    echo "Running API tests..."
+
+# Build API Docker image
+build tag="latest":
+    echo "Building API image:{{tag}}..."

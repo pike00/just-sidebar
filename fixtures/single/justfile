@@ -1,0 +1,14 @@
+# Build the project
+build:
+    echo "Building..."
+
+# Run all tests
+test verbose="false":
+    echo "Testing (verbose={{verbose}})..."
+
+# Deploy to an environment
+deploy env="production" *services:
+    echo "Deploying {{services}} to {{env}}..."
+
+clean:
+    echo "Cleaning build artifacts..."
